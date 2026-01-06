@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Manula Phashion — Online Clothing Store</title>
+  <meta name="description" content="Corporate wear, street style, and traditional clothing. Book custom fittings, view alteration prices, and navigate to our live address." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#ffffff;
+      --text:#0b0b0b;
+      --muted:#444444;
+      --border:#e6e6e6;
+      --gold:#d4af37;
+      --soft-gold:#f7e199;
+      --card:#fafafa;
+      --shadow:rgba(0,0,0,0.12);
+      --danger:#c0392b;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    img{max-width:100%;display:block}
+    a{color:#9c7c0a;text-decoration:none}
+    a:hover{text-decoration:underline}
+    ul{list-style:none;padding:0;margin:0}
+    h1,h2,h3{margin:0 0 .5rem 0}
+    p{margin:.5rem 0 1rem 0;color:var(--muted)}
+
+    /* Header */
+    header{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter:saturate(180%) blur(10px);
+      background:linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.75));
+      border-bottom:1px solid var(--border);
+    }
+    .nav{
+      max-width:1150px;margin:0 auto;padding:.75rem 1rem;
+      display:flex;align-items:center;gap:1rem;justify-content:space-between;
+    }
+    .brand{display:flex;align-items:center;gap:.6rem;font-weight:700;letter-spacing:.3px}
+    .brand .logo{
+      width:38px;height:38px;border-radius:10px;
+      
+      border:1px solid rgba(212,175,55,0.35);
+    }
+    .menu{display:flex;gap:.6rem;flex-wrap:wrap}
+    .menu a{
+      padding:.45rem .75rem;border-radius:10px;border:1px solid #efefef;
+      background:linear-gradient(180deg,#ffffff,#f8f8f8);
+      color:#222;
+      box-shadow:0 4px 10px var(--shadow)
+    }
+    .menu a:hover{
+      border-color:rgba(212,175,55,.45);
+      background:linear-gradient(180deg,#fffef7,#fff4d3);
+    }
+
+    /* Hero with 3D tilt */
+    .hero{
+      max-width:1150px;margin:1.2rem auto 1.8rem;padding:0 1rem;
+      display:grid;grid-template-columns:1.1fr .9fr;gap:1.2rem
+    }
+    @media (max-width:800px){.hero{grid-template-columns:1fr}}
+    .hero-card{
+      position:relative;border-radius:18px;overflow:hidden;background:linear-gradient(160deg,#ffffff,#f7f2e6);
+      border:1px solid rgba(212,175,55,0.35);
+      box-shadow:0 24px 50px var(--shadow);
+      perspective:1200px;
+    }
+    .hero-inner{
+      transform-style:preserve-3d;transition:transform .25s ease, box-shadow .25s ease;
+      padding:2rem 2rem 2.2rem;
+    }
+    .hero-card:hover .hero-inner{box-shadow:0 40px 80px rgba(0,0,0,0.15)}
+    .hero h1{
+      font-size:2.1rem;
+      background:linear-gradient(90deg, #222, #8a6c08, var(--gold));
+      -webkit-background-clip:text;background-clip:text;color:transparent
+    }
+    .cta{display:flex;gap:.6rem;margin-top:1rem;flex-wrap:wrap}
+
+    .btn{
+      cursor:pointer;border:1px solid rgba(212,175,55,0.35);background:#fff;
+      color:#1a1a1a;padding:.65rem 1rem;border-radius:12px;font-weight:600
+    }
+    .btn-primary{
+      color:#0a0a0a;border-color:transparent;
+      background:linear-gradient(135deg, #fff, var(--soft-gold), var(--gold));
+      box-shadow:0 8px 18px rgba(212,175,55,0.25)
+    }
+
+    .tag{
+      display:inline-block;padding:.25rem .55rem;border-radius:999px;
+      background:rgba(212,175,55,.12);color:#7f6510;
+      border:1px solid rgba(212,175,55,.35);font-size:.8rem;margin-right:.3rem
+    }
+
+    /* Section wrapper */
+    section{max-width:1150px;margin:0 auto 1.8rem;padding:0 1rem}
+    .section-card{
+      border:1px solid rgba(212,175,55,0.28);border-radius:16px;background:var(--card);padding:1rem 1rem 1.3rem;
+      box-shadow:0 10px 24px var(--shadow)
+    }
+    .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem}
+    .section-title{font-size:1.5rem;font-weight:700}
+    .pill{
+      display:inline-block;border:1px solid rgba(212,175,55,0.35);border-radius:999px;padding:.25rem .6rem;
+      color:#7f6510;font-size:.85rem;background:#fff2c29e
+    }
+
+    /* Product grid with 3D flip */
+    .grid{display:grid;grid-template-columns:repeat(3, minmax(0,1fr));gap:1rem}
+    @media (max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:600px){.grid{grid-template-columns:1fr}}
+    .card{
+      position:relative;border:1px solid rgba(212,175,55,0.3);border-radius:14px;overflow:hidden;
+      background:#fff;perspective:900px;box-shadow:0 12px 24px var(--shadow)
+    }
+    .card-inner{
+      position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.2,.7,.2,1)
+    }
+    .card:hover .card-inner{transform:rotateY(180deg)}
+    .card-face{
+      position:absolute;inset:0;padding:.9rem;display:flex;flex-direction:column;gap:.6rem
+    }
+    .card-front{backface-visibility:hidden}
+    .card-back{
+      transform:rotateY(180deg);backface-visibility:hidden;
+      background:linear-gradient(180deg,#fffaf0,#fff3d4)
+    }
+    .price{font-weight:700;color:#7f6510}
+    .helper{font-size:.85rem;color:#666}
+
+    /* Contact grid */
+    .contact-list{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem}
+    @media (max-width:900px){.contact-list{grid-template-columns:1fr}}
+    .contact-item{border:1px solid rgba(212,175,55,0.28);border-radius:14px;padding:.8rem;background:#fff}
+
+    /* Alterations table */
+    table{width:100%;border-collapse:collapse;border:1px solid rgba(212,175,55,0.28);border-radius:12px;overflow:hidden;background:#fff}
+    thead th{
+      background:linear-gradient(180deg,#fff9e8,#fff3d4);
+      color:#3a2f06;text-align:left;padding:.7rem;border-bottom:1px solid rgba(212,175,55,0.25)
+    }
+    tbody td{padding:.7rem;border-bottom:1px solid #f0e6c0;color:#333}
+    tbody tr:last-child td{border-bottom:none}
+
+    /* Booking form */
+    .form{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem}
+    @media (max-width:900px){.form{grid-template-columns:1fr}}
+    .field{display:flex;flex-direction:column;gap:.25rem}
+    .field label{font-weight:600;color:#2b2b2b}
+    .field input,.field select,.field textarea{
+      padding:.6rem;border:1px solid rgba(212,175,55,0.35);border-radius:10px;background:#fff;color:#111
+    }
+
+    /* Footer */
+    footer{max-width:1150px;margin:0 auto;padding:1rem;border-top:1px solid var(--border);color:#666}
+    .social{display:flex;gap:.6rem;flex-wrap:wrap}
+    .social a{
+      border:1px solid rgba(212,175,55,0.35);padding:.45rem .75rem;border-radius:10px;background:#fff;color:#2b2b2b;
+      box-shadow:0 6px 14px var(--shadow)
+    }
+    .social a:hover{background:#fff5d4}
+
+    /* Accessibility helpers */
+    .sr-only{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}
+  </style>
+  
+  
+  
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
+    (function(){
+	  emailjs.init("KoGskAQ632nElgeQo"); // replace with your public key
+    })();
+  </script>
+  
+  
+  
+  
+</head>
+<body>
+  <!-- Header / Navigation -->
+  <header role="banner" aria-label="Main navigation">
+    <div class="nav">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"><img src="Mlogo.jpeg" /></div>
+        <span>Manula Phashion</span>
+      </div>
+      <nav class="menu" aria-label="Primary">
+        <a href="#corporate-wear">Corporate wear</a>
+        <a href="#street-style">Street style</a>
+        <a href="#traditional-clothing">Traditional clothing</a>
+        <a href="#location-contact">Location & contact</a>
+        <a href="#alterations">Alterations</a>
+        <a href="#booking">Book fitting</a>
+        <a href="#social">Social media</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-card" id="tilt-card" aria-label="Promotional banner">
+      <div class="hero-inner">
+        <span class="tag">New arrivals</span>
+        <h1>Professional-standard style in corporate, street, and traditional wear.</h1>
+        <p>Shop curated looks, book custom fittings, view alteration prices, and navigate to our live address in one tap.</p>
+        <div class="cta">
+          <a class="btn btn-primary" href="#booking">Book custom fitting</a>
+          <a class="btn" href="#alterations">View alterations</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-header">
+        <div>
+          <div class="section-title">Shop by category</div>
+          <p>Flip any product card to see details.</p>
+        </div>
+        <div>
+          <span class="pill">Free pickup</span>
+          <span class="pill">Secure payments</span>
+          <span class="pill">Johannesburg</span>
+        </div>
+      </div>
+      <ul class="social" aria-label="Quick access">
+        <li><a href="#corporate-wear">Corporate wear</a></li>
+        <li><a href="#street-style">Street style</a></li>
+        <li><a href="#traditional-clothing">Traditional clothing</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Corporate Wear Section -->
+  <section id="corporate-wear" aria-labelledby="corporate-title">
+    <div class="section-card">
+      <div class="section-header">
+        <h2 id="corporate-title" class="section-title">Corporate wear</h2>
+        <span class="pill">Formal • Tailored • Office-ready</span>
+      </div>
+
+      <div class="grid">
+        <article class="card" aria-label="Charcoal Slim-Fit Suit">
+          <div class="card-inner">
+            <div class="card-face card-front">
+              <img src="https://images.unsplash.com/photo-1552374196-c4e7ccb8cacf?q=80&w=1200&auto=format&fit=crop" alt="Charcoal slim-fit suit on mannequin" />
+              <h3>Charcoal Slim-Fit Suit</h3>
+              <p>Lightweight wool blend with modern cut.</p>
+              <div class="price">R2,499</div>
+            </div>
+            <div class="card-face card-back">
+              <h3>Details</h3>
+              <p>- Sizes: 36–44 | - Colour: Charcoal | - Fit: Slim</p>
+              <p class="helper">Dry clean only • Hem adjustments available.</p>
+              <button class="btn">Add to wishlist</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" aria-label="Classic White Shirt">
+          <div class="card-inner">
+            <div class="card-face card-front">
+              <img src="https://images.unsplash.com/photo-1520975892450-2f7a5e6c8941?q=80&w=1200&auto=format&fit=crop" alt="Classic white shirt neatly folded" />
+              <h3>Classic White Shirt</h3>
+              <p>Cotton sateen, wrinkle-resistant finish.</p>
+              <div class="price">R399</div>
+            </div>
+            <div class="card-face card-back">
+              <h3>Details</h3>
+              <p>- Sizes: S–XXL | - Collar: Spread | - Cuffs: Button</p>
+              <p class="helper">Sleeve shortening available.</p>
+              <button class="btn">Add to wishlist</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" aria-label="Navy Pencil Skirt">
+          <div class="card-inner">
+            <div class="card-face card-front">
+              <img src="https://images.unsplash.com/photo-1515771921307-9da2d986ab4f?q=80&w=1200&auto=format&fit=crop" alt="Navy pencil skirt on hanger" />
+              <h3>Navy Pencil Skirt</h3>
+              <p>High-waisted, stretch for comfort.</p>
+              <div class="price">R499</div>
+            </div>
+            <div class="card-face card-back">
+              <h3>Details</h3>
+              <p>- Sizes: XS–XL | - Length: Knee | - Fabric: Blend</p>
+              <p class="helper">Waist tapering available.</p>
+              <button class="btn">Add to wishlist</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Street Style Section -->
+  <section id="street-style" aria-labelledby="street-title">
+    <div class="section-card">
+      <div class="section-header">
+        <h2 id="street-title" class="section-title">Street style</h2>
+        <span class="pill">Casual • Bold • Everyday</span>
+      </div>  
+	  
+      <div class="grid">
+        <article class="card" aria-label="Graphic Hoodie">
+          <div class="card-inner">
+            <div class="card-face card-front">
+              <img src="WhatsApp Image 2026-01-06 at 14.04.20.jpeg" />
+              <h3>Graphic Hoodie</h3>
+              <p>Soft fleece with front pocket.</p>
+              <div class="price">R599</div>
+            </div>
+            <div class="card-face card-back">
+              <h3>Details</h3>
+              <p>- Sizes: S–XL | - Colour: Black | - Print: Minimal</p>
+              <p class="helper">Hood drawstring replacement available.</p>
+              <button class="btn">Add to wishlist</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" aria-label="Relaxed Fit Jeans">
+          <div class="card-inner">
+            <div class="card-face card-front">
+              <img src="streetW3.jpeg" alt="Blue denim jeans folded" />
+              <h3>Relaxed Fit Jeans</h3>
+              <p>Mid-wash denim with comfort stretch.</p>
+              <div class="price">R749</div>
+            </div>
+            <div class="card-face card-back">
+              <h3>Details</h3>
+              <p>- Sizes: 28–40 | - Fit: Relaxed | - Rise: Mid</p>
+              <p class="helper">Hem shortening available.</p>
+              <button class="btn">Add to wishlist</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" aria-label="Canvas Sneaker">
+          <div class="card-inner">
+            <div class="card-face card-front">
+              <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop" alt="White canvas sneakers side view" />
+              <h3>Canvas Sneaker</h3>
+              <p>Breathable upper and cushioned sole.</p>
+              <div class="price">R899</div>
+            </div>
+            <div class="card-face card-back">
+              <h3>Details</h3>
+              <p>- Sizes: 4–11 | - Colour: White | - Sole: Rubber</p>
+              <p class="helper">Lace replacement available.</p>
+              <button class="btn">Add to wishlist</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Traditional Clothing Section -->
+  <section id="traditional-clothing" aria-labelledby="traditional-title">
+    <div class="section-card">
+      <div class="section-header">
+        <h2 id="traditional-title" class="section-title">Traditional clothing</h2>
+        <span class="pill">Heritage • Crafted • Ceremonial</span>
+      </div>
+
+      <div class="grid">
+        <article class="card" aria-label="Shweshwe Dress">
+          <div class="card-inner">
+            <div class="card-face card-front">
+              <img src="https://images.unsplash.com/photo-1617054071784-3b5f72b35104?q=80&w=1200&auto=format&fit=crop" alt="Blue shweshwe patterned dress" />
+              <h3>Shweshwe Dress</h3>
+              <p>Classic print with modern tailoring.</p>
+              <div class="price">R1,899</div>
+            </div>
+            <div class="card-face card-back">
+              <h3>Details</h3>
+              <p>- Sizes: XS–XL | - Fabric: Cotton | - Pattern: Blue</p>
+              <p class="helper">Custom hem and waist available.</p>
+              <button class="btn">Add to wishlist</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" aria-label="Beaded Collar">
+          <div class="card-inner">
+            <div class="card-face card-front">
+              <img src="https://images.unsplash.com/photo-1566568292325-c1e5d6d18d19?q=80&w=1200&auto=format&fit=crop" alt="Colorful beaded collar piece" />
+              <h3>Beaded Collar</h3>
+              <p>Handcrafted beadwork, vibrant palette.</p>
+              <div class="price">R599</div>
+            </div>
+            <div class="card-face card-back">
+              <h3>Details</h3>
+              <p>- One size | - Colours: Multi | - Origin: SA</p>
+              <p class="helper">Bead repairs available.</p>
+              <button class="btn">Add to wishlist</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" aria-label="Kente Wrap">
+          <div class="card-inner">
+            <div class="card-face card-front">
+              <img src="https://images.unsplash.com/photo-1581340407408-8ae9ee2cd4e3?q=80&w=1200&auto=format&fit=crop" alt="Kente fabric wrap folded" />
+              <h3>Kente Wrap</h3>
+              <p>Rich hues, ceremonial weight.</p>
+              <div class="price">R999</div>
+            </div>
+            <div class="card-face card-back">
+              <h3>Details</h3>
+              <p>- Length: 2m | - Fabric: Woven | - Finish: Hand</p>
+              <p class="helper">Edge finishing available.</p>
+              <button class="btn">Add to wishlist</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Location and Contact Details -->
+  <section id="location-contact" aria-labelledby="contact-title">
+    <div class="section-card">
+      <div class="section-header">
+        <h2 id="contact-title" class="section-title">Location and contact details</h2>
+        <span class="pill">Johannesburg, Gauteng</span>
+      </div>
+
+      <div class="contact-list">
+        <div class="contact-item" aria-label="Live address navigation link">
+          <h3>Live address</h3>
+          <p>
+            <strong>Manula Phashion:</strong>
+            <a href="https://share.google/xF26UMg4QSu1KjLJr" target="_blank" rel="noopener">
+              Tap to navigate on Google
+            </a>
+          </p>
+          <p class="helper">Opens your maps app for directions.</p>
+        </div>
+        <div class="contact-item" aria-label="Physical location">
+          <h3>Physical location</h3>
+          <p><strong>Address:</strong> Ext 0 Taxi Rank, Cosmo City, Ranburg, 2188</p>
+          <p class="helper">Open Mon–Sat • 09:00–18:00</p>
+        </div>
+        <div class="contact-item" aria-label="Contact number">
+          <h3>Contact number</h3>
+           <a href="tel:+27798760686">+27798760686</a></p><a href="tel:+27680165078">+27680165078</a></p> <a href="tel:+27607098596">+27607098596</a></p>
+          <p class="helper">Call or WhatsApp for quick queries.</p>
+        </div>
+        <div class="contact-item" aria-label="Email address">
+          <h3>Email address</h3>
+          <p><strong>Email:</strong> <a href="manulaphashion20@gmail.com">manulaphashion20@gmail.com</a></p>
+          <p class="helper">We respond within 24 hours.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Alterations Price List -->
+  <section id="alterations" aria-labelledby="alter-title">
+    <div class="section-card">
+      <div class="section-header">
+        <h2 id="alter-title" class="section-title">Alterations price list</h2>
+        <span class="pill">Fast turnaround</span>
+      </div>
+
+      <div class="table-wrap">
+        <table aria-describedby="alter-title">
+          <thead>
+		  
+            <tr>
+              <th scope="col">Alteration</th>
+              <th scope="col">Description</th>
+              <th scope="col">Price (ZAR)</th>
+            </tr>
+          </thead>
+          <tbody>
+		    <tr>
+             <strong><td>Women and Men Alterations</td></strong> 
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Hem shortening or lengthening</td>
+              <td>Jeans, trousers, skirts, and dresses hem adjustment</td>
+              <td>R120</td>
+            </tr>
+            <tr>
+              <td>Sleeve shortening or lengthening</td>
+              <td>Shirts and jackets sleeve length</td>
+              <td>R150</td>
+            </tr>
+            <tr>
+              <td>Waist tapering</td>
+              <td>Skirts, trousers waist fit adjustment, take in or let out waist</td>
+              <td>R150</td>
+            </tr>
+            <tr>
+              <td>Jacket or Suit jacket tailoring</td>
+              <td>Taking in/letting out seams</td>
+              <td>R200</td>
+            </tr>
+            <tr>
+              <td>Zip replacement</td>
+              <td>Standard zip replacement on trousers/dresses</td>
+              <td>R140</td>
+            </tr>
+			<tr>
+              <td>Lining Placement</td>
+              <td>Replace or repair lining</td>
+              <td>R260</td>
+            </tr>
+			<tr>
+              <td>Dress Take-in/Let out</td>
+              <td>Adjust uze for better fit</td>
+              <td>R200</td>
+            </tr>
+            <tr>
+              <td>Bead repairs</td>
+              <td>Traditional garment beadwork fixes</td>
+              <td>R220</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="helper">Prices are estimates. Final quotes provided after garment assessment.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Booking for Custom Fittings -->
+  <section id="booking" aria-labelledby="booking-title">
+    <div class="section-card">
+      <div class="section-header">
+        <h2 id="booking-title" class="section-title">Booking for custom fittings</h2>
+        <span class="pill">By appointment</span>
+      </div>
+
+      <form id="booking-form" class="form" novalidate>
+        <div class="field">
+          <label for="name">Full name</label>
+          <input id="name" name="name" type="text" placeholder="e.g., Tiisetso Phaahla" required />
+          <span class="helper">Required</span>
+        </div>
+        <div class="field">
+          <label for="phone">Phone number</label>
+          <input id="phone" name="phone" type="tel" placeholder="+27 ..." required />
+          <span class="helper">Include country code</span>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="you@example.com" required />
+          <span class="helper">For confirmation</span>
+        </div>
+        <div class="field">
+          <label for="date">Preferred date</label>
+          <input id="date" name="date" type="date" required />
+          <span class="helper">Mon–Sat • 09:00–18:00</span>
+        </div>
+        <div class="field">
+          <label for="time">Preferred time</label>
+          <input id="time" name="time" type="time" required />
+          <span class="helper">We’ll confirm availability</span>
+        </div>
+        <div class="field">
+          <label for="service">Service</label>
+          <select id="service" name="service" required>
+            <option value="">Select service</option>
+            <option>Custom garment</option>
+            <option>Alterations</option>
+            <option>Measurements only</option>
+          </select>
+          <span class="helper">Choose one</span>
+        </div>
+        <div class="field" style="grid-column:1/-1">
+          <label for="notes">Notes</label>
+          <textarea id="notes" name="notes" rows="4" placeholder="Garment details, fabric, event date..."></textarea>
+        </div>
+        <div style="grid-column:1/-1;display:flex;gap:.6rem">
+          <button type="submit" class="btn btn-primary">Request booking</button>
+          <button type="reset" class="btn">Reset</button>
+        </div>
+        <p id="form-msg" class="helper" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- Social Media Links -->
+  <section id="social" aria-labelledby="social-title">
+    <div class="section-card">
+      <div class="section-header">
+        <h2 id="social-title" class="section-title">Social media links</h2>
+        <span class="pill">Follow for updates</span>
+      </div>
+
+      <div class="social" aria-label="Social platforms">
+        <a href="https://www.facebook.com/share/1cNwejrcSn/" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://www.instagram.com/manulaclothing/?utm_source=ig_web_button_share_sheet" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://x.com/yourhandle" target="_blank" rel="noopener">X (Twitter)</a>
+        <a href="https://www.tiktok.com/@m_manula20?_r=1&_t=ZS-92r2ONihomb" target="_blank" rel="noopener">TikTok</a>
+        <a href="https://youtube.com/@titlerphashion?si=qkoevUgZfj34nMYq" target="_blank" rel="noopener">YouTube</a>
+        <a href="https://www.linkedin.com/company/yourcompany" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+      <p class="helper">Click the links to navigate to our social handles.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 Manula Phashion. All rights reserved.</p>
+    <p class="helper">Crafted with care in Johannesburg.</p>
+  </footer>
+  
+  
+  
+  
+  
+  <script>
+document.getElementById('booking-form').addEventListener('submit', function(event) {
+  event.preventDefault();
+
+  emailjs.sendForm('service_a9zjghn', 'template_u6evgai', this)
+    .then(function() {
+      document.getElementById('form-msg').textContent = "Booking request sent successfully!";
+    }, function(error) {
+      document.getElementById('form-msg').textContent = "Failed to send booking: " + JSON.stringify(error);
+    });
+});
+</script>
+
+  
+  
+  
+  <script>
+    // Smooth scroll for internal links
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', e=>{
+        const target = document.querySelector(a.getAttribute('href'));
+        if(target){
+          e.preventDefault();
+          target.scrollIntoView({behavior:'smooth', block:'start'});
+        }
+      });
+    });
+
+    // Subtle 3D tilt for hero
+    (function(){
+      const card = document.getElementById('tilt-card');
+      if(!card) return;
+      const inner = card.querySelector('.hero-inner');
+      let raf = null;
+
+      const updateTilt = (x, y) => {
+        const rect = card.getBoundingClientRect();
+        const cx = rect.left + rect.width/2;
+        const cy = rect.top + rect.height/2;
+        const dx = x - cx;
+        const dy = y - cy;
+        const rotY = (dx / (rect.width/2)) * 7;
+        const rotX = -(dy / (rect.height/2)) * 7;
+        inner.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(12px)`;
+      };
+
+      const resetTilt = () => {
+        inner.style.transform = 'rotateX(0) rotateY(0) translateZ(0)';
+      };
+
+      card.addEventListener('mousemove', (e)=>{
+        if(raf) cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(()=>updateTilt(e.clientX, e.clientY));
+      });
+      card.addEventListener('mouseleave', ()=>{
+        if(raf) cancelAnimationFrame(raf);
+        resetTilt();
+      });
+    })();
+
+    // Booking form validation and mock submit
+    (function(){
+      const form = document.getElementById('booking-form');
+      const msg = document.getElementById('form-msg');
+
+      const isValidPhone = (value) => /^\+?[0-9\s\-]{8,16}$/.test(value);
+      const isValidEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+
+      form.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        msg.textContent = '';
+
+        const data = Object.fromEntries(new FormData(form).entries());
+        const errors = [];
+
+        if(!data.name?.trim()) errors.push('Name is required.');
+        if(!data.phone?.trim() || !isValidPhone(data.phone)) errors.push('Valid phone number is required.');
+        if(!data.email?.trim() || !isValidEmail(data.email)) errors.push('Valid email is required.');
+        if(!data.date) errors.push('Preferred date is required.');
+        if(!data.time) errors.push('Preferred time is required.');
+        if(!data.service) errors.push('Please select a service.');
+
+        if(errors.length){
+          msg.style.color = getComputedStyle(document.documentElement).getPropertyValue('--danger').trim();
+          msg.textContent = 'Please fix: ' + errors.join(' ');
+          return;
+        }
+
+        msg.style.color = '#333';
+        msg.textContent = 'Thank you. Your booking request has been received. We will confirm shortly.';
+        form.reset();
+      });
+    })();
+
+    // Accessibility: enable keyboard flip focus
+    document.querySelectorAll('.card').forEach(card=>{
+      card.setAttribute('tabindex','0');
+      const inner = card.querySelector('.card-inner');
+      card.addEventListener('focus', ()=> inner.style.transform='rotateY(180deg)');
+      card.addEventListener('blur', ()=> inner.style.transform='';
+    });
+  </script>
+</body>
+</html>
